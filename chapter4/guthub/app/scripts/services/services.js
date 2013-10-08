@@ -5,29 +5,38 @@
 var services = angular.module('guthub.services',
     ['ngResource']); //loading ngResource - and naming it as guthub.services, and assigning it as services variable
 
-// Angular Services 1 - instantiated: $resource - for RESTful resources
+// Angular Services 1 - instantiated: $resource - for RESTful resources  - .get(), .save(), .query(), .remote(), .delete()
+
 services.factory('Recipe', ['$resource',                //Recipe service
     function($resource) {
-        return $resource('/recipes/:id', {id: '@id'}); // R
-}]);
+        return $resource('/recipes/:id', {id: '@id'});
+    }
+]);
 
-// Angular Services 2 - instantiated: $resource - for RESTful resources
-services.factory('MultiRecipeLoader', ['Recipe', '$q',
+//The next two services (2 and 3) are loaders - used to hook up with the routes - multi-page display
+
+// Angular Services 2 - instantiated:
+// Loads Multiple Recipes
+
+services.factory('MultiRecipeLoader', ['Recipe', '$q',  //STEP 1: $q < deferred object , angular js promises used for chaining asynchronous functions
     function(Recipe, $q) {
       return function() {
         var delay = $q.defer();
 
         Recipe.query(function(recipes) {
-          delay.resolve(recipes);
+          delay.resolve(recipes);       //STEP 3: Resolve the deferred object when the server returns the value
         }, function() {
           delay.reject('Unable to fetch recipes');
         });
 
          return delay.promise;
       };
-}]);
+    }
+]);
 
-// Angular Services 3 - instantiated: $resource - for RESTful resources
+// Angular Services 3 - instantiated:
+//Loads single Recipes
+
 services.factory('RecipeLoader', ['Recipe', '$route', '$q',
     function(Recipe, $route, $q) {
     return function() {
