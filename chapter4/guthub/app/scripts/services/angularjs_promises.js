@@ -14,9 +14,10 @@ fetchServerConfig(function(serverConfig) {
 var currentProfile =
     fetchServerConfig().then(function(serverConfig) {
         return fetchUserProfiles(serverConfig.USER_PROFILES, username);
-    }).then(function(profiles) {
-            return profiles.currentProfile;
-    }, function(error) {
+    }).then(function(profiles) {                        //then passes two functions, f
+            return profiles.currentProfile;             //first is a success handler
+    }, function(error) {                                //second is an error handler
        // Handle errors in either fetchServerConfig or
        // fetchUserProfiles here
     });
+
