@@ -23,7 +23,7 @@ app.config(['$routeProvider', function($routeProvider) {
             return RecipeLoader();
           }]
         },
-        templateUrl:'/views/recipeForm.html'2
+        templateUrl:'/views/recipeForm.html'
       }).when('/view/:recipeId', {
         controller: 'ViewCtrl',
         resolve: {
